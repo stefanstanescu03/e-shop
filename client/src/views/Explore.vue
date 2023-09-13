@@ -1,13 +1,16 @@
 <script>
 import Product from "../components/Product.vue";
+import Searchbar from "../components/Searchbar.vue";
+import { ref } from "vue";
 
 export default {
   data() {
     return {
-      productsArr: [],
+      productsArr: ref([]),
+      pattern: ref(""),
     };
   },
-  async mounted() {
+  async created() {
     const response = await fetch(`http://localhost:3000/products`, {
       method: "GET",
       headers: {
@@ -16,24 +19,33 @@ export default {
     });
 
     const products = await response.json();
-    this.productsArr = products;
+    this.productsArr = [...products];
   },
-  methods: {},
-  components: { Product },
+  computed: {
+    filteredProducts: function () {
+      return this.productsArr.filter((product) => {
+        return product.product_name
+          .toUpperCase()
+          .includes(this.pattern.toUpperCase());
+      });
+    },
+  },
+  components: { Product, Searchbar },
 };
 </script>
 
 <template>
+  <Searchbar @pattern="(pattern) => (this.pattern = pattern)" />
   <div class="explore">
     <div class="explore-text-container">
       <h1 class="explore-text">EXPLORE</h1>
     </div>
     <div class="products">
       <Product
-        v-for="product in this.productsArr"
+        v-for="product in filteredProducts"
         :name="product.product_name"
-        :id="product.id"
         :price="product.product_price"
+        :id="product.id"
         currency="$"
       />
     </div>
@@ -42,7 +54,6 @@ export default {
 
 <style>
 .explore {
-  padding-top: 6.5rem;
   display: flex;
   flex-direction: column;
 }

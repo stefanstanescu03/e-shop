@@ -1,5 +1,4 @@
 <script>
-import Searchbar from "./Searchbar.vue";
 import { useAccountStore } from "../stores/account";
 
 export default {
@@ -9,7 +8,6 @@ export default {
       loggedAccount: useAccountStore(),
     };
   },
-  components: { Searchbar },
 };
 </script>
 
@@ -46,7 +44,6 @@ export default {
         </button>
       </div>
     </div>
-    <Searchbar />
   </div>
 </template>
 

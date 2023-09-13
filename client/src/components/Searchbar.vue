@@ -1,8 +1,12 @@
 <script>
+
 export default {
   data() {
-    return {};
+    return {
+      search: "",
+    };
   },
+  emits:['pattern'],
 };
 </script>
 
@@ -12,8 +16,9 @@ export default {
       type="text"
       placeholder="WHAT ARE YOU LOOKING FOR?"
       class="search"
+      v-model="this.search"
     />
-    <button class="search-button">
+    <button class="search-button" @click="$emit('pattern', search)">
       <img
         src="../assets/search.png"
         alt="search-icon"
@@ -27,6 +32,7 @@ export default {
 <style>
 
 .search-bar {
+    padding-top: 3.5rem;
     display: flex;
     flex-direction: row;
     align-items: center;

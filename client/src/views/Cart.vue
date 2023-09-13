@@ -20,7 +20,7 @@ export default {
 <style>
 
 .cart {
-  padding-top: 6.5rem;
+  padding-top: 3.5rem;
   display: flex;
   flex-direction: column;
 }

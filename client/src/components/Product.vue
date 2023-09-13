@@ -1,12 +1,16 @@
 <script>
+
+import { computed } from "vue";
+
 export default {
+
   props: ["name", "price", "currency", "id"],
   data(props) {
     return {
-      productName: props.name,
-      productPrice: props.price,
-      productCurrency: props.currency,
-      productId: props.id,
+      productName: computed(() => props.name),
+      productPrice: computed(() => props.price),
+      productCurrency: computed(() => props.currency),
+      productId: computed(() => props.id),
     };
   },
 };

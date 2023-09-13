@@ -1,14 +1,14 @@
-import { defineStore } from 'pinia'
+import { defineStore } from "pinia";
 
-export const useAccountStore = defineStore('account', {
+export const useAccountStore = defineStore("account", {
   state: () => {
     return {
-        email: "",
-        first_name: "",
-        last_name: "",
-        id: "",
-        loggedin: false
-    }
+      email: "",
+      first_name: "",
+      last_name: "",
+      id: "",
+      loggedin: false,
+    };
   },
   actions: {
     login(newAccount) {
@@ -24,6 +24,6 @@ export const useAccountStore = defineStore('account', {
       this.last_name = "";
       this.id = "";
       this.loggedin = false;
-    }
-  }
-})
+    },
+  },
+});
