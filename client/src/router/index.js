@@ -4,7 +4,8 @@ import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Cart from "../views/Cart.vue";
 import Profile from "../views/Profile.vue";
-import Explore from "../views/Explore.vue"
+import Explore from "../views/Explore.vue";
+import Product from "../views/Product.vue";
 
 const routes = [
   { path: "/", name: "Home", component: Home },
@@ -12,6 +13,7 @@ const routes = [
   { path: "/cart", name: "Cart", component: Cart },
   { path: "/profile", name: "Profile", component: Profile },
   { path: "/explore", name: "Explore", component: Explore },
+  { path: "/product/:productName", name: "Product", component: Product },
 ];
 
 const router = createRouter({

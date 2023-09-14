@@ -26,12 +26,12 @@ export default {
 
 <style>
 .profile {
-    padding-top: 5rem;
+    padding-top: 4rem;
 }
 
 .info-container {
-    position: fixed;
-    width: 100%;
+    left: 0;
+    width: auto;
     left: 0;
     display: flex;
     padding-left: 10rem;
