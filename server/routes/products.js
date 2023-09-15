@@ -29,4 +29,14 @@ router.get("/specific", (req, res) => {
   });
 });
 
+router.get("/specificId", (req, res) => {
+  const id = req.query.id;
+  pool.query("SELECT * FROM products WHERE id = $1", [id], (error, results) => {
+    if (error) {
+      throw error;
+    }
+    res.status(200).json(results.rows);
+  });
+});
+
 module.exports = router;

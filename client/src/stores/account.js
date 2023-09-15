@@ -6,7 +6,7 @@ export const useAccountStore = defineStore("account", {
       email: "",
       first_name: "",
       last_name: "",
-      id: "",
+      id: "-1",
       loggedin: false,
     };
   },
