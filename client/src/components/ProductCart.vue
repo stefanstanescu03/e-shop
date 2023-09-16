@@ -3,6 +3,7 @@ import { computed } from "vue";
 
 export default {
   props: ["name", "price", "currency", "id"],
+  emits: ["deleteId"],
   data(props) {
     return {
       productName: computed(() => props.name),
@@ -29,7 +30,7 @@ export default {
         Name: {{ this.productName }} <br />
         Price: {{ this.productCurrency }}{{ this.productPrice }}
       </p>
-      <button class="delete-button">Delete</button>
+      <button class="delete-button" @click="$emit('deleteId', this.productId)">Delete</button>
     </div>
   </div>
 </template>

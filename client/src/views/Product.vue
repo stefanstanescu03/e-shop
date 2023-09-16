@@ -1,5 +1,8 @@
 <script>
 import { useRoute } from "vue-router";
+import { useCartStore } from "../stores/cart";
+import { useAccountStore } from "../stores/account";
+import Popup from "../components/Popup.vue"
 
 export default {
   data() {
@@ -10,13 +13,25 @@ export default {
         productDescription: "",
         productId: "",
       },
+      loggedAccount: useAccountStore(),
+      cart: useCartStore(),
+      shouldAppear: false,
     };
   },
   methods: {
-    getImgUrl: function () {
+    getImgUrl: function() {
       return `http://localhost:3000/images/img_${this.state.productId}.webp`;
     },
+    handleAdd: function() {
+      if(this.loggedAccount.id === "-1"){
+        this.$router.push('/login');
+      }else{
+        this.cart.addProduct(parseInt(this.state.productId));
+        this.shouldAppear = true;
+      }
+    }
   },
+  components: { Popup },
   async created() {
     const route = useRoute();
     this.productName = route.params.productName;
@@ -51,7 +66,7 @@ export default {
         Price: ${{ this.state.productPrice }} <br />
       </p>
       <div>
-        <button class="add-button">Add to cart</button>
+        <button class="add-button" @click="handleAdd()">Add to cart</button>
       </div>
     </div>
     <div class="description-container">
@@ -63,6 +78,7 @@ export default {
     <div class="img-container">
       <img class="product-img-bigger" :src="getImgUrl()" alt="default" />
     </div>
+    <Popup v-show="this.shouldAppear"/>
   </div>
 </template>
 

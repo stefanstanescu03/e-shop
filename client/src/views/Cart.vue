@@ -1,5 +1,6 @@
 <script>
 import { useAccountStore } from "../stores/account";
+import { useCartStore } from "../stores/cart";
 import ProductCart from "../components/ProductCart.vue";
 
 export default {
@@ -7,40 +8,38 @@ export default {
     return {
       loggedAccount: useAccountStore(),
       productsInCart: [],
+      cart: useCartStore(),
       total: 0,
     };
   },
   async created() {
-    const response = await fetch(
-      `http://localhost:3000/carts?id=${this.loggedAccount.id}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    for (const index in this.cart.products) {
+      const response = await fetch(
+        `http://localhost:3000/products/specificId?id=${this.cart.products[index]}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-    const cart = await response.json();
-    if (cart.status != "no match for id") {
-      for (const index in cart[0].products) {
-        const response = await fetch(
-          `http://localhost:3000/products/specificId?id=${cart[0].products[index]}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        const prod = await response.json();
-        this.total += parseInt(prod[0].product_price);
-        this.productsInCart.push(prod[0]);
-      }
+      const prod = await response.json();
+      this.total += parseInt(prod[0].product_price);
+      this.productsInCart.push(prod[0]);
     }
   },
-  methods: {},
+  methods: {
+    handleDelete: function (id) {
+      this.productsInCart = this.productsInCart.filter((product) => {
+        if (product.id === id) {
+          this.total -= product.product_price;
+          return false;
+        } else return true;
+      });
+      this.cart.deleteProduct(id);
+    },
+  },
   components: { ProductCart },
 };
 </script>
@@ -61,6 +60,7 @@ export default {
       :price="product.product_price"
       :id="product.id"
       currency="$"
+      @delete-id="(id) => handleDelete(id)"
     />
     <div class="total-container">
       <h2 class="total-text">Total: ${{ this.total }}</h2>
